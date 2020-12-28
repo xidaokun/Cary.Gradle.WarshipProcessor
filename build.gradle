@@ -44,7 +44,7 @@ publish {
     userOrg = 'xidaokun'
     groupId = 'org.warship'
     artifactId = 'processor'
-    publishVersion = "0.0.16"
+    publishVersion = "0.0.17"
     desc = 'Warship processor'
     repoName = 'warship'
     website = 'https://github.com/xidaokun/WarshipProcessor'

@@ -48,14 +48,19 @@ public class VersionProcessor extends AbstractProcessor {
 		System.out.println("className:" + className);
 		System.out.println("classPackage:" + classPackage);
 
-		if (className==null || classPackage==null) return true;
+		if (className == null || classPackage == null) {
+			content.append("}");
+			return true;
+		}
 
 		content.append("package ")
 				.append(classPackage)
+				.append(";")
 				.append("\n")
 				.append("public final class ")
 				.append(className)
-				.append("{");
+				.append("{")
+				.append("\n");
 
 		for (TypeElement annotatedClass : ElementFilter.typesIn(roundEnvironment.getElementsAnnotatedWith(Version.class))) {
 
@@ -63,27 +68,26 @@ public class VersionProcessor extends AbstractProcessor {
 
 			for (ExecutableElement executableElement : ElementFilter.methodsIn(annotatedClass.getEnclosedElements())) {
 				String returnValue = executableElement.getReturnType().toString();
-				String methodName = executableElement.getSimpleName().toString();
+				String methodName = executableElement.toString();
 				String annotation = null;
 				for (AnnotationMirror mirror : executableElement.getAnnotationMirrors()) {
 					annotation = mirror.getAnnotationType().asElement().getSimpleName().toString();
 				}
 
 				content.append("public static ")
-						.append(executableElement.getReturnType().toString())
+						.append(returnValue)
 						.append(" ")
-						.append(executableElement.toString())
+						.append(methodName)
 						.append(" ")
 						.append("{")
 						.append("\n")
 						.append("\t")
 						.append("return ")
-						.append(annotation)
+						.append("\""+annotation+"\"")
+						.append(";")
 						.append("\n")
 						.append("}")
 						.append("\n");
-
-				content.append("}");
 			}
 		}
 
@@ -91,8 +95,8 @@ public class VersionProcessor extends AbstractProcessor {
 
 		try {
 			String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
-			System.out.println("path=====>"+path);
-			writeFile(new File(path, "SdkVersion.java"), content.toString());
+			System.out.println("path=====>" + path);
+			writeFile(new File(path, className + ".java"), content.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -103,7 +107,7 @@ public class VersionProcessor extends AbstractProcessor {
 	}
 
 	private void writeFile(File file, String content) throws IOException {
-		if(!file.exists()) {
+		if (!file.exists()) {
 			file.createNewFile();
 		}
 		FileOutputStream outputStream;
