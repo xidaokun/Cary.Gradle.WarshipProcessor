@@ -84,6 +84,7 @@ public class VersionProcessor extends AbstractProcessor {
 
 				try {
 					String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
+					System.out.println("path=====>"+path);
 					writeFile(new File(path, "SdkVersion.java"), content);
 //					String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
 //					System.out.println("path:"+path);
