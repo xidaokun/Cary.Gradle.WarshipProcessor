@@ -33,7 +33,7 @@ dependencies {
     //gradle sdk
     implementation gradleApi()
     //groovy sdk
-    implementation localGroovy()
+    compile localGroovy()
 
     implementation 'org.warship:annotation:0.0.6'
     implementation 'com.google.auto.service:auto-service:1.0-rc4'
@@ -44,7 +44,7 @@ publish {
     userOrg = 'xidaokun'
     groupId = 'org.warship'
     artifactId = 'processor'
-    publishVersion = "0.0.12"
+    publishVersion = "0.0.13"
     desc = 'Warship processor'
     repoName = 'warship'
     website = 'https://github.com/xidaokun/WarshipProcessor'
