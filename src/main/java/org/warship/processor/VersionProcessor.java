@@ -37,6 +37,8 @@ public class VersionProcessor extends AbstractProcessor {
 
 		System.out.println("process START===>");
 
+		StringBuilder content = new StringBuilder();
+
 		String classPackage = null;
 		String className = null;
 		for (Element element : roundEnvironment.getRootElements()) {
@@ -46,11 +48,18 @@ public class VersionProcessor extends AbstractProcessor {
 		System.out.println("className:" + className);
 		System.out.println("classPackage:" + classPackage);
 
+		if (className==null || classPackage==null) return true;
+
+		content.append("package ")
+				.append(classPackage)
+				.append("\n")
+				.append("public final class ")
+				.append(className)
+				.append("{");
 
 		for (TypeElement annotatedClass : ElementFilter.typesIn(roundEnvironment.getElementsAnnotatedWith(Version.class))) {
 
 			boolean is = annotatedClass.getKind().isInterface();
-			System.out.println("isInterface:" + is);
 
 			for (ExecutableElement executableElement : ElementFilter.methodsIn(annotatedClass.getEnclosedElements())) {
 				String returnValue = executableElement.getReturnType().toString();
@@ -60,12 +69,7 @@ public class VersionProcessor extends AbstractProcessor {
 					annotation = mirror.getAnnotationType().asElement().getSimpleName().toString();
 				}
 
-				System.out.println("method:" + methodName);
-				System.out.println("return:" + returnValue);
-				System.out.println("org.warship.annotation:" + annotation);
-
-				String content = new StringBuilder()
-						.append("public static ")
+				content.append("public static ")
 						.append(executableElement.getReturnType().toString())
 						.append(" ")
 						.append(executableElement.toString())
@@ -77,34 +81,20 @@ public class VersionProcessor extends AbstractProcessor {
 						.append(annotation)
 						.append("\n")
 						.append("}")
-						.append("\n")
-						.toString();
+						.append("\n");
 
-				System.out.println(content);
-
-				try {
-					String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
-					System.out.println("path=====>"+path);
-					writeFile(new File(path, "SdkVersion.java"), content);
-//					String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
-//					System.out.println("path:"+path);
-//					System.out.println("className:"+className);
-//
-//					if(className==null) return true;
-//
-//					GroovyUtil.getInstance().invokeMethod("ProcessorHelper.groovy", "create"
-//							, path
-//							, className+".java"
-//							, content);
-
-//					GroovyUtil.invokeMethod("ProcessorHelper.groovy", "create"
-//							, "./src/main/java/org/warship/processor/"
-//							, "VersionClass.java"
-//							, "aaaaa");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				content.append("}");
 			}
+		}
+
+		System.out.println(content.toString());
+
+		try {
+			String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
+			System.out.println("path=====>"+path);
+			writeFile(new File(path, "SdkVersion.java"), content.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		System.out.println("process END===>");
