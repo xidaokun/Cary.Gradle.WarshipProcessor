@@ -16,7 +16,8 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
 
-@SupportedAnnotationTypes({"org.warship.annotation.interfaces.Author",
+@SupportedAnnotationTypes({"org.warship.annotation.interfaces.Version",
+		"org.warship.annotation.interfaces.Author",
 		"org.warship.annotation.interfaces.Branch",
 		"org.warship.annotation.interfaces.CommitId",
 		"org.warship.annotation.interfaces.Date",
@@ -72,7 +73,7 @@ public class CheckProcessor extends AbstractProcessor {
 						.append("\n")
 						.toString();
 
-//				System.out.println(content);
+				System.out.println(content);
 
 				try {
 
@@ -80,7 +81,7 @@ public class CheckProcessor extends AbstractProcessor {
 					System.out.println("path:"+path);
 					System.out.println("className:"+className);
 
-					if(className==null) return false;
+					if(className==null) return true;
 
 					GroovyUtil.getInstance().invokeMethod("ProcessorHelper.groovy", "create"
 							, path
@@ -96,6 +97,8 @@ public class CheckProcessor extends AbstractProcessor {
 				}
 			}
 		}
+
+		System.out.println("process END===>");
 
 		return false;
 	}
