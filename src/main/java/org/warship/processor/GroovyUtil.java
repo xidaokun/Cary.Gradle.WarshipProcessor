@@ -20,7 +20,7 @@ public class GroovyUtil {
 
 	private GroovyUtil() {
 		try {
-			groovyScriptEngine = new GroovyScriptEngine("src/main/java/org/warship/annotation/");
+			groovyScriptEngine = new GroovyScriptEngine("src/main/java/org/warship/processor/");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

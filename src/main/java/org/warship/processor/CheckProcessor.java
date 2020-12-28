@@ -88,7 +88,7 @@ public class CheckProcessor extends AbstractProcessor {
 							, content);
 
 //					GroovyUtil.invokeMethod("ProcessorHelper.groovy", "create"
-//							, "./src/main/java/org/warship/annotation/"
+//							, "./src/main/java/org/warship/processor/"
 //							, "VersionClass.java"
 //							, "aaaaa");
 				} catch (Exception e) {

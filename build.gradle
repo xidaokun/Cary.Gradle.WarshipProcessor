@@ -35,14 +35,15 @@ dependencies {
     //groovy sdk
     implementation localGroovy()
 
-    implementation 'org.warship:annotation:0.0.3'
+    implementation 'org.warship:annotation:0.0.4'
+    annotationProcessor 'org.warship:processor:0.0.5'
 }
 
 publish {
     userOrg = 'xidaokun'
     groupId = 'org.warship'
     artifactId = 'processor'
-    publishVersion = "0.0.3"
+    publishVersion = "0.0.6"
     desc = 'Warship processor'
     repoName = 'warship'
     website = 'https://github.com/xidaokun/WarshipProcessor'
