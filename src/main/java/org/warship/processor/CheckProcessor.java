@@ -1,13 +1,15 @@
 package org.warship.processor;
 
 
+import com.google.auto.service.AutoService;
+
 import org.warship.annotation.interfaces.Version;
 
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
@@ -16,14 +18,8 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.ElementFilter;
 
-@SupportedAnnotationTypes({"org.warship.annotation.interfaces.Version",
-		"org.warship.annotation.interfaces.Author",
-		"org.warship.annotation.interfaces.Branch",
-		"org.warship.annotation.interfaces.CommitId",
-		"org.warship.annotation.interfaces.Date",
-		"org.warship.annotation.interfaces.Description",
-		"org.warship.annotation.interfaces.VersionCode"})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
+@AutoService(Processor.class)
 public class CheckProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
@@ -100,7 +96,7 @@ public class CheckProcessor extends AbstractProcessor {
 
 		System.out.println("process END===>");
 
-		return false;
+		return true;
 	}
 
 }

@@ -36,13 +36,15 @@ dependencies {
     implementation localGroovy()
 
     implementation 'org.warship:annotation:0.0.5'
+    implementation 'com.google.auto.service:auto-service:1.0-rc4'
+    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc4'
 }
 
 publish {
     userOrg = 'xidaokun'
     groupId = 'org.warship'
     artifactId = 'processor'
-    publishVersion = "0.0.7"
+    publishVersion = "0.0.10"
     desc = 'Warship processor'
     repoName = 'warship'
     website = 'https://github.com/xidaokun/WarshipProcessor'
