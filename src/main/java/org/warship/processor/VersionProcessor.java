@@ -5,6 +5,9 @@ import com.google.auto.service.AutoService;
 
 import org.warship.annotation.interfaces.Version;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -28,7 +31,7 @@ import javax.lang.model.util.ElementFilter;
 		"org.warship.annotation.interfaces.Date",
 		"org.warship.annotation.interfaces.Description",
 		"org.warship.annotation.interfaces.VersionCode"})
-public class CheckProcessor extends AbstractProcessor {
+public class VersionProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
 
@@ -80,17 +83,18 @@ public class CheckProcessor extends AbstractProcessor {
 				System.out.println(content);
 
 				try {
-
 					String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
-					System.out.println("path:"+path);
-					System.out.println("className:"+className);
-
-					if(className==null) return true;
-
-					GroovyUtil.getInstance().invokeMethod("ProcessorHelper.groovy", "create"
-							, path
-							, className+".java"
-							, content);
+					writeFile(new File(path, "SdkVersion.java"), content);
+//					String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
+//					System.out.println("path:"+path);
+//					System.out.println("className:"+className);
+//
+//					if(className==null) return true;
+//
+//					GroovyUtil.getInstance().invokeMethod("ProcessorHelper.groovy", "create"
+//							, path
+//							, className+".java"
+//							, content);
 
 //					GroovyUtil.invokeMethod("ProcessorHelper.groovy", "create"
 //							, "./src/main/java/org/warship/processor/"
@@ -105,6 +109,20 @@ public class CheckProcessor extends AbstractProcessor {
 		System.out.println("process END===>");
 
 		return true;
+	}
+
+	private void writeFile(File file, String content) throws IOException {
+		if(!file.exists()) {
+			file.createNewFile();
+		}
+		FileOutputStream outputStream;
+		try {
+			outputStream = new FileOutputStream(file);
+			outputStream.write(content.getBytes());
+			outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
