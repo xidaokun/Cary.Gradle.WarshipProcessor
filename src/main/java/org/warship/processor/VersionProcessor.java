@@ -49,8 +49,7 @@ public class VersionProcessor extends AbstractProcessor {
 		System.out.println("classPackage:" + classPackage);
 
 		if (className == null || classPackage == null) {
-			content.append("}");
-			return true;
+			return false;
 		}
 
 		content.append("package ")
@@ -60,6 +59,7 @@ public class VersionProcessor extends AbstractProcessor {
 				.append("public final class ")
 				.append(className)
 				.append("{")
+				.append("\n")
 				.append("\n");
 
 		for (TypeElement annotatedClass : ElementFilter.typesIn(roundEnvironment.getElementsAnnotatedWith(Version.class))) {
@@ -87,6 +87,7 @@ public class VersionProcessor extends AbstractProcessor {
 						.append(";")
 						.append("\n")
 						.append("}")
+						.append("\n")
 						.append("\n");
 			}
 		}
@@ -96,6 +97,7 @@ public class VersionProcessor extends AbstractProcessor {
 		try {
 			String path = "./src/main/java/" + classPackage.replace(".", "/") + "/";
 			System.out.println("path=====>" + path);
+			content.append("}");
 			writeFile(new File(path, className + ".java"), content.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
