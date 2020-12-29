@@ -5,6 +5,9 @@ import java.io.IOException;
 import groovy.lang.GroovyObject;
 import groovy.util.GroovyScriptEngine;
 
+/**
+ * java调用groovy方法的工具类
+ */
 public class GroovyUtil {
 	private static GroovyUtil mInstance;
 	private GroovyScriptEngine groovyScriptEngine;
